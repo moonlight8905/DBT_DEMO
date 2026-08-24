@@ -5,17 +5,9 @@ WITH CTE AS(
      DATE(TO_TIMESTAMP(STARTED_AT)) AS date_started_at,
      HOUR(TO_TIMESTAMP(STARTED_AT)) AS hour_started_at,
      DAYNAME(TO_TIMESTAMP(STARTED_AT)) AS day_started_at,
-     CASE
-        WHEN  DAYNAME(TO_TIMESTAMP(STARTED_AT)) IN('Sat','Sun')
-        THEN 'Weekend'
-        ELSE 'Business'
-    END AS day_type,
-    CASE 
-        WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (12,1,2) THEN 'Winter'
-        WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (3,4,5) THEN 'Spring'
-        WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (6,7,8) THEN 'Summer'
-        ELSE 'Autumn'
-    END AS season
+    {{day_type('STARTED_AT')}} AS day_type, -- we can create a macro to save this piece of code to be reuseable. Create file date_utils.sql under Macros folder
+                                            --Now that we created the macro, we can just call it instead of typing out the whole case statement
+    {{get_season('STARTED_AT')}} AS season
     from
     {{ source('demo', 'bike') }}
     where STARTED_AT != 'started_at'
