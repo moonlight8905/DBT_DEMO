@@ -16,12 +16,10 @@ WITH CTE AS(
         WHEN MONTH(TO_TIMESTAMP(STARTED_AT)) IN (6,7,8) THEN 'Summer'
         ELSE 'Autumn'
     END AS season
-
     from
     {{ source('demo', 'bike') }}
     where STARTED_AT != 'started_at'
 )
-
 
 select
 *
