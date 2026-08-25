@@ -4,7 +4,7 @@
     )
 }}
 
-WITH BIKE AS(
+WITH bike AS(
     select distinct
         START_STATION_ID AS station_id,
         START_STATION_NAME AS station_name,
@@ -14,4 +14,4 @@ WITH BIKE AS(
     where ride_id != 'ride_id'
 )
 
-select * from BIKE
+select * from bike
